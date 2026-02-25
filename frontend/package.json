@@ -20,8 +20,10 @@
     "vite": "^7.3.1"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "animejs": "^4.3.6",
     "axios": "^1.13.5",
+    "bootstrap": "^5.3.8",
     "klinik-laktasi-workspace": "file:..",
     "lucide-react": "^0.575.0",
     "react": "^19.2.4",
