@@ -2,17 +2,13 @@ FROM node:20-alpine AS base
 
 WORKDIR /app
 
-# Salin file konfigurasi package
+# Salin file konfigurasi package dan source code
 COPY package*.json ./
-COPY backend/package*.json backend/
-COPY frontend/package*.json frontend/
+COPY backend ./backend
+COPY frontend ./frontend
 
 # Install dependency backend dan frontend
 RUN npm install --prefix backend && npm install --prefix frontend
-
-# Salin source code
-COPY backend ./backend
-COPY frontend ./frontend
 
 # Build frontend (Vite) menjadi file statis
 RUN npm run build --prefix frontend
