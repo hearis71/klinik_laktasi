@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(cuid())
+  nama      String
+  email     String      @unique
+  password  String
+  role      String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  kunjungan Kunjungan[]
+}
+
+model Pasien {
+  id           String   @id @default(cuid())
+  no_rm        String   @unique
+  nik          String?  @unique
+  nama         String
+  tanggalLahir DateTime @db.Date
+  alamat       String?
+  noHp         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  kunjungan Kunjungan[]
+}
+
+model Kunjungan {
+  id       String @id @default(cuid())
+  pasienId String
+  userId   String
+
+  tanggalKunjungan DateTime @db.Date
+  keluhanUtama     String
+  redFlags         Boolean  @default(false)
+  statusKunjungan  String   @default("OPEN")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  pasien Pasien @relation(fields: [pasienId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([pasienId])
+  @@index([userId])
+}
