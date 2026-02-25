@@ -1,20 +1,11 @@
 {
-  "name": "klinik-laktasi",
+  "name": "klinik-laktasi-workspace",
   "version": "1.0.0",
-  "description": "Aplikasi Manajemen Klinik Laktasi - ERM",
+  "description": "Workspace monorepo untuk backend dan frontend klinik laktasi",
   "private": true,
   "scripts": {
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend/klinik-laktasi-dashboard && npm run dev",
-    "install:all": "npm install --prefix backend && npm install --prefix frontend/klinik-laktasi-dashboard"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.24",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.2.1"
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.8"
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "install:all": "npm install --prefix backend && npm install --prefix frontend"
   }
 }
