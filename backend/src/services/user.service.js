@@ -14,6 +14,25 @@ exports.create = async (data) => {
   });
 };
 
+exports.findAll = async () => {
+  return prisma.user.findMany({
+    select: {
+      id: true,
+      nama: true,
+      email: true,
+      role: true,
+      createdAt: true
+    },
+    orderBy: { createdAt: 'desc' }
+  });
+};
+
+exports.delete = async (id) => {
+  return prisma.user.delete({
+    where: { id }
+  });
+};
+
 exports.findByEmail = (email) => {
   return prisma.user.findUnique({
     where: { email }

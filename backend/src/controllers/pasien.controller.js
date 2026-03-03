@@ -20,6 +20,12 @@ exports.findOne = async (req, res) => {
   res.json(data);
 };
 
+exports.findByNoRM = async (req, res) => {
+  const data = await pasienService.findByNoRM(req.params.no_rm);
+  if (!data) return res.status(404).json({ message: "Pasien tidak ditemukan" });
+  res.json(data);
+};
+
 exports.update = async (req, res) => {
   try {
     const data = await pasienService.update(req.params.id, req.body);

@@ -35,14 +35,14 @@ const Sidebar = () => {
         { id: 'security', label: 'Keamanan' },
       ]
     },
-    { 
-        id: 'settings', 
-        icon: FaCog, 
-        label: 'Setting Management', 
+    {
+        id: 'settings',
+        icon: FaCog,
+        label: 'Setting Management',
         hasSubmenu: true,
         submenu: [
-          { id: 'clinic', label: 'Pengaturan Klinik' },
-          { id: 'user', label: 'Manajemen User' },
+          { id: 'clinic', label: 'Pengaturan Klinik', path: '/setting' },
+          { id: 'user', label: 'Manajemen User', path: '/manajemen-user' },
         ]
       },
     { id: 'setting', icon: FaCog, label: 'Setting', path: '/setting' },
@@ -56,6 +56,12 @@ const Sidebar = () => {
       if (item.path) {
         navigate(item.path);
       }
+    }
+  };
+
+  const handleSubmenuClick = (subItem) => {
+    if (subItem.path) {
+      navigate(subItem.path);
     }
   };
 
@@ -82,7 +88,11 @@ const Sidebar = () => {
             {item.hasSubmenu && (
               <div className={`submenu ${expandedMenu === item.id ? 'open' : ''}`}>
                 {item.submenu.map((subItem) => (
-                  <button key={subItem.id} className="submenu-item">
+                  <button
+                    key={subItem.id}
+                    className="submenu-item"
+                    onClick={() => handleSubmenuClick(subItem)}
+                  >
                     {subItem.label}
                   </button>
                 ))}

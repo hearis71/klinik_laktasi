@@ -30,7 +30,8 @@
     "react-dom": "^19.2.4",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.13.1",
-    "recharts": "^3.7.0"
+    "recharts": "^3.7.0",
+    "sweetalert2": "^11.26.21"
   },
   "main": "index.js",
   "keywords": [],

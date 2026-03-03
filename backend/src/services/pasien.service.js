@@ -36,10 +36,20 @@ exports.findById = (id) => {
   return prisma.pasien.findUnique({ where: { id } });
 };
 
+exports.findByNoRM = (no_rm) => {
+  return prisma.pasien.findUnique({ where: { no_rm } });
+};
+
 exports.update = (id, data) => {
+  // Convert tanggalLahir to Date object if it exists
+  const updateData = { ...data };
+  if (updateData.tanggalLahir) {
+    updateData.tanggalLahir = new Date(updateData.tanggalLahir);
+  }
+
   return prisma.pasien.update({
     where: { id },
-    data,
+    data: updateData,
   });
 };
 

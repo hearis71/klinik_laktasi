@@ -8,10 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// API routes
+// API routes (all routes managed in routes/index.js)
 app.use("/api", routes);
-app.use("/api/user", require("./routes/user.routes"));
-app.use("/api/auth", require("./routes/auth.routes"));
 
 // Static frontend (Vite build output)
 const frontendDistPath = path.join(__dirname, "..", "..", "frontend", "dist");
