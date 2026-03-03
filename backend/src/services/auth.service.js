@@ -4,6 +4,16 @@ const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET || "klinik_laktasi_rahasia";
 
+// Health check function
+exports.healthCheck = async () => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    return { status: "healthy", database: "connected" };
+  } catch (err) {
+    return { status: "unhealthy", database: "disconnected", error: err.message };
+  }
+};
+
 exports.login = async (email, password) => {
   const user = await prisma.user.findUnique({
     where: { email }

@@ -1,5 +1,18 @@
 const service = require("../services/auth.service");
 
+exports.healthCheck = async (req, res) => {
+  try {
+    const health = await service.healthCheck();
+    if (health.status === "healthy") {
+      res.json({ status: "ok", message: "Server is running", ...health });
+    } else {
+      res.status(503).json({ status: "degraded", message: "Service degraded", ...health });
+    }
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+};
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
