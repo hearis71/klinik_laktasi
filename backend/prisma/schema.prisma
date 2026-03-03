@@ -3,32 +3,33 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id        String      @id @default(cuid())
-  nama      String
-  email     String      @unique
-  role      String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  password  String
-  kunjungan Kunjungan[]
+  id         String       @id @default(cuid())
+  nama       String
+  email      String       @unique
+  role       String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  password   String
+  kunjungan  Kunjungan[]
   registrasi Registrasi[]
 }
 
 model Pasien {
-  id           String      @id @default(cuid())
-  nik          String?     @unique
+  id           String       @id @default(cuid())
+  nik          String?      @unique
   nama         String
-  tanggalLahir DateTime    @db.Date
+  tanggalLahir DateTime     @db.Date
   alamat       String?
   noHp         String?
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  no_rm        String      @unique
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  no_rm        String       @unique
   kunjungan    Kunjungan[]
   registrasi   Registrasi[]
 }
@@ -51,23 +52,23 @@ model Kunjungan {
 }
 
 model Registrasi {
-  id                String   @id @default(cuid())
-  no_registrasi     String   @unique
-  tanggalPengkajian DateTime @db.Date
-  waktuPengkajian   String
-  pasienId          String
-  userId            String
-  namaIbu           String
-  tanggalLahirIbu   DateTime @db.Date
-  usiaIbu           String
-  namaBayi          String?
-  tanggalLahirBayi  DateTime? @db.Date
-  usiaBayi          String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  pasien            Pasien   @relation(fields: [pasienId], references: [id])
-  user              User     @relation(fields: [userId], references: [id])
+  id                    String                 @id @default(cuid())
+  no_registrasi         String                 @unique
+  tanggalPengkajian     DateTime               @db.Date
+  waktuPengkajian       String
+  pasienId              String
+  userId                String
+  namaIbu               String
+  tanggalLahirIbu       DateTime               @db.Date
+  usiaIbu               String
+  namaBayi              String?
+  tanggalLahirBayi      DateTime?              @db.Date
+  usiaBayi              String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
   kajianRiwayatMenyusui KajianRiwayatMenyusui?
+  pasien                Pasien                 @relation(fields: [pasienId], references: [id])
+  user                  User                   @relation(fields: [userId], references: [id])
 
   @@index([pasienId])
   @@index([userId])
@@ -75,109 +76,93 @@ model Registrasi {
 }
 
 model KajianRiwayatMenyusui {
-  id                    String   @id @default(cuid())
-  no_registrasi         String   @unique
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-
-  // Pemberian Makan Bayi Sekarang
-  pemberianMakanASI     Boolean  @default(false)
-  pemberianMakanSusuLain Boolean @default(false)
-  keteranganSusuLain    String?
-  frekuensiMenyusui     String?
-  keteranganFrekuensiMenyusui String?
-  lamaMenyusui          String?
-  menyusui              String?
-  menyusuiMalamHari     String?
-  jumlahFrekuensiSusuLain String?
-  cairanTambahanKapanDimulai String?
-  cairanTambahanApaYangDiberikan String?
-  cairanTambahanFrekuensiPemberian String?
-  cairanTambahanBerapaBanyak String?
-  makananTambahanKapanDimulai String?
-  makananTambahanApaYangDiberikan String?
-  makananTambahanFrekuensiPemberian String?
-  makananTambahanBerapaBanyak String?
-  menggunakanBotol      String?
-  keteranganBotol       String?
-
-  // Kesehatan & Perilaku Bayi
-  bbSaatLahir           Int?
-  bbSaatIni             Int?
-  perubahanBB           String?
-  jenisKelahiranPrematur Boolean @default(false)
-  jenisKelahiranKembar  Boolean @default(false)
-  frekuensiBAK          String?
-  warnaBAK              String?
-  frekuensiBAB          String?
-  kosistensiBAB         String?
-  perilakuMakan         String?
-  perilakuTidur         String?
-  perilakuMenangis      String?
-  riwayatSakit          String?
-  kelainanBawaan        String?
-
-  // Kehamilan, Kelahiran dan Pemberian Makan Bayi
-  tempatANCRS           Boolean @default(false)
-  tempatANCTPMB         Boolean @default(false)
-  tempatANCPuskesmas    Boolean @default(false)
-  tempatANCPolindes     Boolean @default(false)
-  tempatANCLainnya      Boolean @default(false)
-  tempatANCKeteranganLainnya String?
-  yangMelakukanANCDokterKandungan Boolean @default(false)
-  yangMelakukanANCBidan Boolean @default(false)
-  yangMelakukanANCDokterUmum Boolean @default(false)
-  yangMelakukanANCLainnya Boolean @default(false)
-  yangMelakukanANCKeteranganLainnya String?
-  diskusiPemberianMakan String?
-  jenisPersalinan       String?
-  riwayatIMD            String?
-  menyusui1Jam          String?
-  rawatGabung           String?
-  pemberianPrelaktal    String?
-  bantuanMenyusui       String?
-  menerimaSampleFormula String?
-
-  // Kondisi Ibu & KB
-  riwayatKesehatanIbu   String?
-  obatDikonsumsi        String?
-  giziIbu               String?
-  kebiasaanKopi         String?
-  minumanAlkohol        String?
-  kebiasaanMerokok      String?
-  narkoba               String?
-  kondisiPayudara       String?
-  penggunaanKB          String?
-  keteranganKB          String?
-  motivasiMenyusui      String?
-
-  // Pengalaman Menyusui Bayi/Anak Sebelumnya
-  jumlahAnakSebelumnya  String?
-  jumlahAnakDisusui     String?
-  riwayatASIEksklusif   String?
-  cairanTambahanSebelumnyaKapanDimulai String?
-  cairanTambahanSebelumnyaApaYangDiberikan String?
-  cairanTambahanSebelumnyaFrekuensiPemberian String?
-  cairanTambahanSebelumnyaBerapaBanyak String?
-  makananTambahanSebelumnyaKapanDimulai String?
-  makananTambahanSebelumnyaApaYangDiberikan String?
+  id                                          String     @id @default(cuid())
+  no_registrasi                               String     @unique
+  createdAt                                   DateTime   @default(now())
+  updatedAt                                   DateTime   @updatedAt
+  pemberianMakanASI                           Boolean    @default(false)
+  pemberianMakanSusuLain                      Boolean    @default(false)
+  keteranganSusuLain                          String?
+  frekuensiMenyusui                           String?
+  keteranganFrekuensiMenyusui                 String?
+  lamaMenyusui                                String?
+  menyusui                                    String?
+  menyusuiMalamHari                           String?
+  jumlahFrekuensiSusuLain                     String?
+  cairanTambahanKapanDimulai                  String?
+  cairanTambahanApaYangDiberikan              String?
+  cairanTambahanFrekuensiPemberian            String?
+  cairanTambahanBerapaBanyak                  String?
+  makananTambahanKapanDimulai                 String?
+  makananTambahanApaYangDiberikan             String?
+  makananTambahanFrekuensiPemberian           String?
+  makananTambahanBerapaBanyak                 String?
+  menggunakanBotol                            String?
+  keteranganBotol                             String?
+  bbSaatLahir                                 Int?
+  bbSaatIni                                   Int?
+  perubahanBB                                 String?
+  jenisKelahiranPrematur                      Boolean    @default(false)
+  jenisKelahiranKembar                        Boolean    @default(false)
+  frekuensiBAK                                String?
+  warnaBAK                                    String?
+  frekuensiBAB                                String?
+  kosistensiBAB                               String?
+  perilakuMakan                               String?
+  perilakuTidur                               String?
+  perilakuMenangis                            String?
+  riwayatSakit                                String?
+  kelainanBawaan                              String?
+  tempatANCRS                                 Boolean    @default(false)
+  tempatANCTPMB                               Boolean    @default(false)
+  tempatANCPuskesmas                          Boolean    @default(false)
+  tempatANCPolindes                           Boolean    @default(false)
+  tempatANCLainnya                            Boolean    @default(false)
+  tempatANCKeteranganLainnya                  String?
+  yangMelakukanANCDokterKandungan             Boolean    @default(false)
+  yangMelakukanANCBidan                       Boolean    @default(false)
+  yangMelakukanANCDokterUmum                  Boolean    @default(false)
+  yangMelakukanANCLainnya                     Boolean    @default(false)
+  yangMelakukanANCKeteranganLainnya           String?
+  diskusiPemberianMakan                       String?
+  jenisPersalinan                             String?
+  riwayatIMD                                  String?
+  menyusui1Jam                                String?
+  rawatGabung                                 String?
+  pemberianPrelaktal                          String?
+  bantuanMenyusui                             String?
+  menerimaSampleFormula                       String?
+  riwayatKesehatanIbu                         String?
+  obatDikonsumsi                              String?
+  giziIbu                                     String?
+  kebiasaanKopi                               String?
+  minumanAlkohol                              String?
+  kebiasaanMerokok                            String?
+  narkoba                                     String?
+  kondisiPayudara                             String?
+  penggunaanKB                                String?
+  keteranganKB                                String?
+  motivasiMenyusui                            String?
+  jumlahAnakSebelumnya                        String?
+  jumlahAnakDisusui                           String?
+  riwayatASIEksklusif                         String?
+  cairanTambahanSebelumnyaKapanDimulai        String?
+  cairanTambahanSebelumnyaApaYangDiberikan    String?
+  cairanTambahanSebelumnyaFrekuensiPemberian  String?
+  cairanTambahanSebelumnyaBerapaBanyak        String?
+  makananTambahanSebelumnyaKapanDimulai       String?
+  makananTambahanSebelumnyaApaYangDiberikan   String?
   makananTambahanSebelumnyaFrekuensiPemberian String?
-  makananTambahanSebelumnyaBerapaBanyak String?
-  menggunakanBotolSebelumnya String?
-  alasanBotol           String?
-
-  // Situasi Keluarga & Sosial
-  pekerjaanOrangTua     String?
-  keadaanEkonomi        String?
-  pendidikanOrangTua    String?
-  sikapKeluarga         String?
-  bantuanPerawatanAnak  String?
-
-  // Interpretasi KMS
-  pertumbuhanSesuaiKurva String?
-
-  // Relations
-  registrasi            Registrasi @relation(fields: [no_registrasi], references: [no_registrasi])
+  makananTambahanSebelumnyaBerapaBanyak       String?
+  menggunakanBotolSebelumnya                  String?
+  alasanBotol                                 String?
+  pekerjaanOrangTua                           String?
+  keadaanEkonomi                              String?
+  pendidikanOrangTua                          String?
+  sikapKeluarga                               String?
+  bantuanPerawatanAnak                        String?
+  pertumbuhanSesuaiKurva                      String?
+  registrasi                                  Registrasi @relation(fields: [no_registrasi], references: [no_registrasi])
 
   @@index([no_registrasi])
 }
