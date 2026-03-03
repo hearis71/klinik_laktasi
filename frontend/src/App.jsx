@@ -17,7 +17,6 @@ import Setting from './pages/Setting';
 import Asesmen from './pages/Asesmen';
 import ManajemenUser from './pages/ManajemenUser';
 import KajianRiwayatMenyusui from './pages/Formulir/KajianRiwayatMenyusui';
-import FormulirLayout from './pages/Formulir/FormulirLayout';
 
 
 function App() {
@@ -34,7 +33,6 @@ function App() {
             <Route path="registrasi" element={<Registrasi />} />
             <Route path="registrasi/edit/:id" element={<Registrasi />} />
             <Route path="antrian" element={<Antrian />} />
-            {/* <Route path="antrian/:noRawat/asesmen" element={<Asesmen />} /> */}
             <Route path="rekam-medis" element={<Rekam />} />
             <Route path="farmasi" element={<Farmasi />} />
             <Route path="pembayaran" element={<Pembayaran />} />
@@ -42,12 +40,7 @@ function App() {
             <Route path="manajemen-user" element={<ManajemenUser />} />
             <Route path="setting" element={<Setting />} />
             <Route path="asesmen" element={<Asesmen />} />
-            
-            {/* Formulir Layout dengan nested routes */}
-            <Route path="formulir" element={<FormulirLayout />}>
-              <Route path="kajian-riwayat-menyusui" element={<KajianRiwayatMenyusui />} />
-              {/* Tambahkan route formulir lain di sini */}
-            </Route>
+            <Route path="kajian-riwayat-menyusui" element={<KajianRiwayatMenyusui />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
