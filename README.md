@@ -1,8 +1,8 @@
 # Klinik Laktasi IKMI
-hearis
+
 Aplikasi Manajemen Klinik Laktasi - ERM (Electronic Medical Record)
 
-## Struktur Proyek
+## 📁 Struktur Proyek
 
 ```
 klinik_laktasi/
@@ -11,34 +11,73 @@ klinik_laktasi/
 │   ├── prisma/
 │   └── package.json
 ├── frontend/         # Dashboard aplikasi
-│   └── klinik-laktasi-dashboard/
-└── README.md
+│   ├── src/
+│   └── package.json
+├── package.json      # Root workspace
+├── README.md
+└── RAILWAY.md        # Panduan deploy ke Railway
 ```
 
-## Cara Menjalankan
+## 🚀 Cara Menjalankan
 
-### Backend
+### Development Mode (Lokal)
 
+**1. Install Dependencies:**
+```bash
+npm run install:all
+```
+
+**2. Jalankan Backend + Frontend:**
+```bash
+npm run dev
+```
+- Backend: http://localhost:3000
+- Frontend: http://localhost:5173
+
+### Production Mode (Railway/Docker)
+
+```bash
+npm run start:prod
+```
+
+Atau lihat [RAILWAY.md](RAILWAY.md) untuk panduan deploy lengkap.
+
+## 🔧 Setup Database
+
+### Local Database
+Edit `backend/.env`:
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+```
+
+### Supabase Cloud
+Edit `backend/.env`:
+```env
+DATABASE_URL="postgresql://postgres.[PROJECT_REF]:[PASSWORD]@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres.[PROJECT_REF]:[PASSWORD]@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres"
+```
+
+Run migrations:
 ```bash
 cd backend
-npm install
-# Pastikan DATABASE_URL di .env sudah dikonfigurasi
+npx prisma migrate dev
 npx prisma generate
-npx prisma migrate dev   # jika perlu migrasi
-npm run dev
+npm run seed
 ```
 
-Backend berjalan di `http://localhost:3000`
+## 🛠️ Tech Stack
 
-### Frontend
+- **Backend:** Node.js, Express.js, Prisma ORM, PostgreSQL, JWT, bcryptjs
+- **Frontend:** React 19, TypeScript, Vite, React Router DOM, Bootstrap 5, Tailwind CSS, Recharts, Axios
+- **DevOps:** Docker, Railway, Supabase
 
-```bash
-cd frontend/klinik-laktasi-dashboard
-npm install
-npm run dev
-```
+## 📄 Dokumentasi
 
-## Tech Stack
+- [RAILWAY.md](RAILWAY.md) - Panduan deploy ke Railway
+- [backend/.env.example](backend/.env.example) - Template environment variables
 
-- **Backend:** Node.js, Express, Prisma, PostgreSQL, JWT
-- **Frontend:** Vite, TypeScript
+## 👥 Default Login
+
+Setelah run seed:
+- **Email:** admin@kliniklaktasi.id
+- **Password:** admin

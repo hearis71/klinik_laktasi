@@ -1,5 +1,27 @@
 # Railway Deployment Guide
 
+## Development vs Production Commands
+
+### **Local Development:**
+```bash
+# Install dependencies
+npm run install:all
+
+# Run both backend + frontend (development mode)
+npm run dev
+```
+- Backend: http://localhost:3000
+- Frontend: http://localhost:5173
+
+### **Production (Railway):**
+```bash
+# Build & Start
+npm run start:prod
+```
+Or Railway will auto-run: `npm install && npm run build && npm start`
+
+---
+
 ## Setup di Railway
 
 ### 1. Buat Project Baru di Railway
