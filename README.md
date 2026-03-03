@@ -1,6 +1,6 @@
 # Klinik Laktasi IKMI
 
-Aplikasi Manajemen Klinik Laktasi - ERM (Electronic Medical Record)
+Aplikasi Manajemen Klinik Laktasi - ERM (Electronic Medical Record) 2026
 
 ## 📁 Struktur Proyek
 
