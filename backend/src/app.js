@@ -12,7 +12,22 @@ app.use(express.json());
 app.use("/api", routes);
 
 // Static frontend (Vite build output)
-const frontendDistPath = path.join(__dirname, "..", "..", "frontend", "dist");
+// Try multiple paths for different deployment scenarios
+const possiblePaths = [
+  path.join(__dirname, "..", "..", "frontend", "dist"), // From backend/src
+  path.join(__dirname, "..", "..", "..", "frontend", "dist"), // From backend
+  path.join(process.cwd(), "frontend", "dist"), // From root
+  path.join(__dirname, "dist") // Fallback
+];
+
+let frontendDistPath = possiblePaths.find(p => {
+  try {
+    return require("fs").existsSync(p);
+  } catch {
+    return false;
+  }
+}) || path.join(__dirname, "..", "..", "frontend", "dist");
+
 app.use(express.static(frontendDistPath));
 
 // Serve SPA for root

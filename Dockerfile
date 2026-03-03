@@ -1,24 +1,29 @@
-FROM node:20
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Salin file konfigurasi package dan source code
+# Copy root package files
 COPY package*.json ./
+
+# Copy backend and frontend
 COPY backend ./backend
 COPY frontend ./frontend
 
-# Install dependency backend dan frontend
+# Install all dependencies
 RUN npm install --prefix backend && npm install --prefix frontend
 
-# Build frontend (Vite) menjadi file statis
+# Build frontend
 RUN npm run build --prefix frontend
 
-# Set environment dan port
+# Copy frontend dist to backend for serving
+RUN cp -r frontend/dist backend/dist
+
+# Set environment
 ENV NODE_ENV=production
 ENV PORT=3000
 
 EXPOSE 3000
 
-# Jalankan backend (Express) yang juga akan melayani file statis hasil build frontend
+# Start backend
 CMD ["npm", "start", "--prefix", "backend"]
 
